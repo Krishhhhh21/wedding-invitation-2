@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-    <title>Wedding Invitation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Kalyani & Mandar's Wedding</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        /* Mobile-First Reset */
         * {
             margin: 0;
             padding: 0;
@@ -16,122 +15,146 @@
         
         body {
             font-family: Arial, sans-serif;
-            overflow-x: hidden;
-            position: relative;
-            width: 100vw;
             height: 100vh;
+            overflow: hidden;
+            position: relative;
+            color: #333;
             touch-action: manipulation;
         }
         
-        /* Background Styles */
-        .full-background {
+        /* Background with couple photo */
+        .wedding-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: url('background.png') center/contain no-repeat;
-            background-color: #f8f8f8; /* Fallback color */
+            background: 
+                linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)),
+                url('background.png') center/contain no-repeat;
+            background-color: #f9f3f0;
         }
         
-        /* Main Container */
-        .main-container {
-            width: 100%;
-            min-height: 100vh;
+        /* Main invitation container */
+        .invitation-container {
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             padding: 20px;
             text-align: center;
         }
         
-        /* Ceremony Button */
-        .ceremony-btn {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            padding: 10px 20px;
-            background-color: hwb(342 36% 7%);
-            color: white;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 99;
-            border: none;
-        }
-        
-        /* Menu Styles */
-        .menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 85%;
-            height: 100%;
-            background-color: white;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            transition: right 0.3s ease;
-            padding: 20px;
-            z-index: 100;
-            overflow-y: auto;
-        }
-        
-        .menu h2 {
+        /* Couple names styling */
+        .couple-names {
+            margin-top: 40px;
             font-family: 'Great Vibes', cursive;
-            margin-bottom: 20px;
-            color: hwb(342 36% 7%);
-            font-size: 24px;
+            font-size: 2.5rem;
+            color: #8b3a3a;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            line-height: 1.2;
         }
         
-        .menu a {
-            display: block;
-            padding: 12px;
-            margin: 10px 0;
-            color: #333;
-            text-decoration: none;
-            border-bottom: 1px solid #eee;
-            font-size: 16px;
+        /* Save the date section */
+        .save-the-date {
+            background-color: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            max-width: 90%;
         }
         
-        /* Ceremony Details */
-        .ceremony-details {
+        .save-the-date h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #8b3a3a;
+            margin-bottom: 10px;
+        }
+        
+        .wedding-date {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #5c2a2a;
+        }
+        
+        /* Ceremony details button */
+        .details-btn {
+            position: fixed;
+            bottom: 30px;
+            padding: 15px 30px;
+            background-color: #8b3a3a;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        /* Ceremony details modal */
+        .ceremony-modal {
             display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            width: 90%;
-            max-height: 85vh;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 100;
             overflow-y: auto;
-            z-index: 101;
+            padding: 20px;
         }
         
-        .ceremony-details h2 {
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 500px;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #8b3a3a;
+        }
+        
+        .ceremony {
+            margin: 20px 0;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .ceremony:last-child {
+            border-bottom: none;
+        }
+        
+        .ceremony h3 {
             font-family: 'Great Vibes', cursive;
-            color: hwb(342 36% 7%);
-            margin-bottom: 15px;
-            font-size: 24px;
+            color: #8b3a3a;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
         
-        .ceremony-details p {
+        .ceremony p {
             margin: 8px 0;
-            font-size: 15px;
-            line-height: 1.4;
+            font-size: 1rem;
         }
         
-        /* Map Styles */
+        /* Map styling */
         .ceremony-map {
-            margin: 12px 0;
+            margin: 15px 0;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            width: 100%;
         }
         
         .ceremony-map iframe {
@@ -140,198 +163,129 @@
             border: none;
         }
         
-        .map-fallback {
-            margin-top: 8px;
-            font-size: 13px;
-        }
-        
-        .map-fallback a {
-            color: hwb(342 36% 7%);
-            text-decoration: none;
-        }
-        
-        /* Close Button */
-        .close-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 22px;
-            color: #777;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 102;
-        }
-        
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 98;
-        }
-        
-        /* Landscape Orientation Adjustments */
-        @media (orientation: landscape) {
-            .ceremony-map iframe {
-                height: 150px;
+        /* Responsive adjustments */
+        @media (max-width: 400px) {
+            .couple-names {
+                font-size: 2rem;
+                margin-top: 30px;
             }
             
-            .ceremony-details {
-                width: 80%;
-                max-height: 80vh;
+            .save-the-date {
+                padding: 15px;
+            }
+            
+            .save-the-date h2 {
+                font-size: 1.8rem;
+            }
+            
+            .wedding-date {
+                font-size: 1.5rem;
+            }
+            
+            .details-btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+                bottom: 20px;
+            }
+            
+            .ceremony h3 {
+                font-size: 1.5rem;
             }
         }
         
-        /* Larger Mobile Screens */
-        @media (min-width: 400px) {
-            .ceremony-map iframe {
-                height: 250px;
+        @media (max-height: 600px) {
+            .couple-names {
+                margin-top: 20px;
+                font-size: 1.8rem;
+            }
+            
+            .save-the-date {
+                margin-bottom: 20px;
             }
         }
     </style>
 </head>
 <body>
-
-<!-- Background -->
-<div class="full-background"></div>
-
-<!-- Overlay -->
-<div class="overlay" id="overlay"></div>
-
-<!-- Main Content -->
-<div class="main-container">
-    <button class="ceremony-btn" onclick="toggleMenu()">Ceremony</button>
-</div>
-
-<!-- Menu -->
-<div class="menu" id="menu">
-    <h2>Ceremonies</h2>
-    <a href="javascript:void(0);" onclick="showCeremony('talan')">Talan Ceremony</a>
-    <a href="javascript:void(0);" onclick="showCeremony('varmai')">Varmai Ceremony</a>
-    <a href="javascript:void(0);" onclick="showCeremony('haldi')">Haldi Ceremony</a>
-    <a href="javascript:void(0);" onclick="showCeremony('wedding')">Wedding Ceremony</a>
-</div>
-
-<!-- Ceremony Details -->
-<div id="talan" class="ceremony-details">
-    <span class="close-btn" onclick="hideCeremony('talan')">&times;</span>
-    <h2>Talan Ceremony</h2>
-    <div class="ceremony-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.715760665199!2d73.03889334166377!3d19.01377558481251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDAwJzQ5LjYiTiA3M8KwMDInMjAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
-        <p class="map-fallback">
-            <a href="https://www.google.com/maps?q=19.01377558481251,73.03889334166377" target="_blank">
-                Open in Google Maps
-            </a>
-        </p>
-    </div>
-    <p><strong>Time:</strong> 10:00 PM</p>
-    <p><strong>Date:</strong> 31-05-2025</p>
-    <p><strong>Venue:</strong> Nakhwa Apartment sec-14 CBD Belapur, Navi Mumbai</p>
-</div>
-
-<div id="varmai" class="ceremony-details">
-    <span class="close-btn" onclick="hideCeremony('varmai')">&times;</span>
-    <h2>Varmai Ceremony</h2>
-    <div class="ceremony-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.715760665199!2d73.03889334166377!3d19.01377558481251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDAwJzQ5LjYiTiA3M8KwMDInMjAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
-        <p class="map-fallback">
-            <a href="https://www.google.com/maps?q=19.01377558481251,73.03889334166377" target="_blank">
-                Open in Google Maps
-            </a>
-        </p>
-    </div>
-    <p><strong>Time:</strong> 7:00 PM</p>
-    <p><strong>Date:</strong> 31-05-2025</p>
-    <p><strong>Venue:</strong> Nakhwa Apartment sec-14 CBD Belapur, Navi Mumbai</p>
-</div>
-
-<div id="haldi" class="ceremony-details">
-    <span class="close-btn" onclick="hideCeremony('haldi')">&times;</span>
-    <h2>Haldi Ceremony</h2>
-    <div class="ceremony-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.715760665199!2d73.03889334166377!3d19.01377558481251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDAwJzQ5LjYiTiA3M8KwMDInMjAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
-        <p class="map-fallback">
-            <a href="https://www.google.com/maps?q=19.01377558481251,73.03889334166377" target="_blank">
-                Open in Google Maps
-            </a>
-        </p>
-    </div>
-    <p><strong>Time:</strong> 10:00 AM</p>
-    <p><strong>Date:</strong> 01-06-2025</p>
-    <p><strong>Venue:</strong> Nakhwa Apartment sec-14 CBD Belapur, Navi Mumbai</p>
-</div>
-
-<div id="wedding" class="ceremony-details">
-    <span class="close-btn" onclick="hideCeremony('wedding')">&times;</span>
-    <h2>Wedding Ceremony</h2>
-    <div class="ceremony-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2665.39033413168!2d72.99870271507194!3d19.132595140294203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b8a97cefdad5%3A0xce8c49166b0172bd!2sIrti%20Cricket%20Ground%20Gothivali!5e0!3m2!1sen!2sin!4v1745853440736!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
-        <p class="map-fallback">
-            <a href="https://www.google.com/maps/place/Irti+Cricket+Ground+Gothivali/@19.1325951,72.9987027,17z" target="_blank">
-                Open in Google Maps
-            </a>
-        </p>
-    </div>
-    <p><strong>Time:</strong> 7:00 PM</p>
-    <p><strong>Date:</strong> 02-06-2025</p>
-    <p><strong>Venue:</strong> Irti Cricket Ground Gothivali, Navi Mumbai</p>
-</div>
-
-<script>
-    // Toggle menu
-    function toggleMenu() {
-        const menu = document.getElementById('menu');
-        const overlay = document.getElementById('overlay');
+    <!-- Background with couple photo -->
+    <div class="wedding-background"></div>
+    
+    <!-- Main invitation content -->
+    <div class="invitation-container">
+        <div class="couple-names">
+            Kalyani<br>&<br>Mandar
+        </div>
         
-        if (menu.style.right === '0px') {
-            menu.style.right = '-100%';
-            overlay.style.display = 'none';
-        } else {
-            menu.style.right = '0px';
-            overlay.style.display = 'block';
+        <div class="save-the-date">
+            <h2>Save the Date</h2>
+            <div class="wedding-date">2nd June 2025</div>
+        </div>
+        
+        <button class="details-btn" onclick="openModal()">Ceremony Details</button>
+    </div>
+    
+    <!-- Ceremony details modal -->
+    <div class="ceremony-modal" id="ceremonyModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2>Wedding Ceremonies</h2>
+            
+            <div class="ceremony">
+                <h3>Talan Ceremony</h3>
+                <p><strong>Date:</strong> 31st May 2025</p>
+                <p><strong>Time:</strong> 10:00 PM</p>
+                <p><strong>Venue:</strong> Nakhwa Apartment, CBD Belapur, Navi Mumbai</p>
+                <div class="ceremony-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.715760665199!2d73.03889334166377!3d19.01377558481251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDAwJzQ5LjYiTiA3M8KwMDInMjAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+            
+            <div class="ceremony">
+                <h3>Wedding Ceremony</h3>
+                <p><strong>Date:</strong> 2nd June 2025</p>
+                <p><strong>Time:</strong> 7:00 PM</p>
+                <p><strong>Venue:</strong> Irti Cricket Ground, Gothivali, Navi Mumbai</p>
+                <div class="ceremony-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2665.39033413168!2d72.99870271507194!3d19.132595140294203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b8a97cefdad5%3A0xce8c49166b0172bd!2sIrti%20Cricket%20Ground%20Gothivali!5e0!3m2!1sen!2sin!4v1745853440736!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Open ceremony details modal
+        function openModal() {
+            document.getElementById('ceremonyModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
-    }
-    
-    // Show ceremony
-    function showCeremony(id) {
-        document.getElementById(id).style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('menu').style.right = '-100%';
-    }
-    
-    // Hide ceremony
-    function hideCeremony(id) {
-        document.getElementById(id).style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }
-    
-    // Close when clicking overlay
-    document.getElementById('overlay').addEventListener('click', function() {
-        document.querySelectorAll('.ceremony-details').forEach(el => {
-            el.style.display = 'none';
+        
+        // Close ceremony details modal
+        function closeModal() {
+            document.getElementById('ceremonyModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal if clicked outside
+        window.addEventListener('click', function(event) {
+            if (event.target == document.getElementById('ceremonyModal')) {
+                closeModal();
+            }
         });
-        document.getElementById('menu').style.right = '-100%';
-        this.style.display = 'none';
-    });
-    
-    // Handle orientation changes
-    function handleOrientation() {
-        const isPortrait = window.innerHeight > window.innerWidth;
-        document.body.classList.toggle('portrait', isPortrait);
-        document.body.classList.toggle('landscape', !isPortrait);
-    }
-    
-    window.addEventListener('resize', handleOrientation);
-    window.addEventListener('orientationchange', handleOrientation);
-    handleOrientation();
-</script>
-
+        
+        // Handle orientation changes
+        function handleOrientation() {
+            const background = document.querySelector('.wedding-background');
+            if (window.innerHeight > window.innerWidth) {
+                // Portrait
+                background.style.backgroundSize = 'contain';
+            } else {
+                // Landscape
+                background.style.backgroundSize = 'cover';
+            }
+        }
+        
+        window.addEventListener('resize', handleOrientation);
+        window.addEventListener('orientationchange', handleOrientation);
+        handleOrientation();
+    </script>
 </body>
 </html>
