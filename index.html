@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wedding Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            touch-action: manipulation;
+        }
+        
+        /* Background Styles */
+        .full-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: url('background.png') center/cover no-repeat;
+        }
+        
+        /* Main Container */
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        /* Ceremony Button */
+        .ceremony-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background-color: hwb(342 36% 7%);
+            color: white;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 99;
+            border: none;
+        }
+        
+        .ceremony-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        /* Menu Styles */
+        .menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            padding: 20px;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        
+        .menu h2 {
+            font-family: 'Great Vibes', cursive;
+            margin-bottom: 20px;
+            color: hwb(342 36% 7%);
+            font-size: 28px;
+        }
+        
+        .menu a {
+            display: block;
+            padding: 12px;
+            margin: 10px 0;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+        
+        .menu a:hover {
+            color: hwb(342 36% 7%);
+            padding-left: 15px;
+        }
+        
+        /* Ceremony Details */
+        .ceremony-details {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 101;
+        }
+        
+        .ceremony-details h2 {
+            font-family: 'Great Vibes', cursive;
+            color: hwb(342 36% 7%);
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+        
+        .ceremony-details p {
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        /* Map Styles */
+        .ceremony-map {
+            margin: 15px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+        
+        .ceremony-map iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+        
+        .map-fallback {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .map-fallback a {
+            color: hwb(342 36% 7%);
+            text-decoration: none;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-btn:hover {
+            color: hwb(342 36% 7%);
+        }
+        
+        /* Overlay for when menu or details are open */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 98;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .ceremony-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                right: 15px;
+            }
+            
+            .menu {
+                width: 85%;
+                right: -85%;
+            }
+            
+            .ceremony-details {
+                padding: 15px;
+            }
+            
+            .ceremony-details h2 {
+                font-size: 24px;
+            }
+            
+            .ceremony-map iframe {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Background Div -->
+<div class="full-background"></div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Main Wedding Page -->
+<div class="main-container">
+    <!-- Ceremony button in center -->
+    <button class="ceremony-btn" onclick="toggleMenu()">Ceremony</button>
+</div>
+
+<!-- Sliding Menu -->
+<div class="menu" id="menu">
+    <h2>Ceremonies</h2>
+    <a href="javascript:void(0);" onclick="showCeremony('talan')">Talan Ceremony</a>
+    <a href="javascript:void(0);" onclick="showCeremony('varmai')">Varmai Ceremony</a>
+    <a href="javascript:void(0);" onclick="showCeremony('haldi')">Haldi Ceremony</a>
+    <a href="javascript:void(0);" onclick="showCeremony('wedding')">Wedding Ceremony</a>
+</div>
+
+<!-- Ceremony Details -->
+<div id="talan" class="ceremony-details">
+    <span class="close-btn" onclick="hideCeremony('talan')">&times;</span>
+    <h2>Talan Ceremony</h2>
+    <div class="ceremony-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.715760665199!2d73.03889334166377!3d19.01377558481251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDAwJzQ5LjYiTiA3M8KwMDInMjAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="map-fallback">
+            Can't see the map? 
+            <a href="https://www.google.com/maps?q=19.01377558481251,73.03889334166377" target="_blank">
+                Open in Google Maps
+            </a>
+        </p>
+    </div>
+    <p><strong>Time:</strong> 10:00 PM</p>
+    <p><strong>Date:</strong> 31-05-2025</p>
+    <p><strong>Venue:</strong> Nakhwa Apartment sec-14 CBD Belapur, Navi Mumbai</p>
+</div>
+
+<div id="varmai" class="ceremony-details">
+    <span class="close-btn" onclick="hideCeremony('varmai')">&times;</span>
+    <h2>Varmai Ceremony</h2>
+    <div class="ceremony-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.715760665199!2d73.03889334166377!3d19.01377558481251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDAwJzQ5LjYiTiA3M8KwMDInMjAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="map-fallback">
+            Can't see the map? 
+            <a href="https://www.google.com/maps?q=19.01377558481251,73.03889334166377" target="_blank">
+                Open in Google Maps
+            </a>
+        </p>
+    </div>
+    <p><strong>Time:</strong> 7:00 PM</p>
+    <p><strong>Date:</strong> 31-05-2025</p>
+    <p><strong>Venue:</strong> Nakhwa Apartment sec-14 CBD Belapur, Navi Mumbai</p>
+</div>
+
+<div id="haldi" class="ceremony-details">
+    <span class="close-btn" onclick="hideCeremony('haldi')">&times;</span>
+    <h2>Haldi Ceremony</h2>
+    <div class="ceremony-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.715760665199!2d73.03889334166377!3d19.01377558481251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDAwJzQ5LjYiTiA3M8KwMDInMjAuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="map-fallback">
+            Can't see the map? 
+            <a href="https://www.google.com/maps?q=19.01377558481251,73.03889334166377" target="_blank">
+                Open in Google Maps
+            </a>
+        </p>
+    </div>
+    <p><strong>Time:</strong> 10:00 AM</p>
+    <p><strong>Date:</strong> 01-06-2025</p>
+    <p><strong>Venue:</strong> Nakhwa Apartment sec-14 CBD Belapur, Navi Mumbai</p>
+</div>
+
+<div id="wedding" class="ceremony-details">
+    <span class="close-btn" onclick="hideCeremony('wedding')">&times;</span>
+    <h2>Wedding Ceremony</h2>
+    <div class="ceremony-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2665.39033413168!2d72.99870271507194!3d19.132595140294203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b8a97cefdad5%3A0xce8c49166b0172bd!2sIrti%20Cricket%20Ground%20Gothivali!5e0!3m2!1sen!2sin!4v1745853440736!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="map-fallback">
+            Can't see the map? 
+            <a href="https://www.google.com/maps/place/Irti+Cricket+Ground+Gothivali/@19.1325951,72.9987027,17z" target="_blank">
+                Open in Google Maps
+            </a>
+        </p>
+    </div>
+    <p><strong>Time:</strong> 7:00 PM</p>
+    <p><strong>Date:</strong> 02-06-2025</p>
+    <p><strong>Venue:</strong> Irti Cricket Ground Gothivali, Navi Mumbai</p>
+</div>
+
+<script>
+    // Toggle menu function
+    function toggleMenu() {
+        const menu = document.getElementById('menu');
+        const overlay = document.getElementById('overlay');
+        
+        if (menu.style.right === '0px') {
+            menu.style.right = menu.offsetWidth === 280 ? '-280px' : '-85%';
+            overlay.style.display = 'none';
+        } else {
+            menu.style.right = '0px';
+            overlay.style.display = 'block';
+        }
+    }
+    
+    // Show ceremony details
+    function showCeremony(ceremonyId) {
+        document.getElementById(ceremonyId).style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('menu').style.right = document.getElementById('menu').offsetWidth === 280 ? '-280px' : '-85%';
+    }
+    
+    // Hide ceremony details
+    function hideCeremony(ceremonyId) {
+        document.getElementById(ceremonyId).style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+    
+    // Close elements when clicking overlay
+    document.getElementById('overlay').addEventListener('click', function() {
+        const ceremonyDetails = document.querySelectorAll('.ceremony-details');
+        ceremonyDetails.forEach(function(detail) {
+            detail.style.display = 'none';
+        });
+        document.getElementById('menu').style.right = document.getElementById('menu').offsetWidth === 280 ? '-280px' : '-85%';
+        this.style.display = 'none';
+    });
+    
+    // Prevent zooming on mobile
+    document.addEventListener('gesturestart', function(e) {
+        e.preventDefault();
+    });
+</script>
+
+</body>
+</html>
